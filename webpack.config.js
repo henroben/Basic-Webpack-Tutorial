@@ -11,6 +11,10 @@ const config = {
             {
                 use: 'babel-loader', // load babel
                 test: /\.js$/ // check that file is .js - if yes, apply babel
+            },
+            {
+                use: ['style-loader', 'css-loader'], // applied right to left, css-loader imports css, style loader injects css into code
+                test: /\.css$/
             }
         ] // loader rules for project e.g. babel
     }
