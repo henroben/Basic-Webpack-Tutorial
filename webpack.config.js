@@ -1,4 +1,5 @@
 const path = require('path'); // node path module to get full system path
+const ExtractTextPlugin = require('extract-text-webpack-plugin'); // module to save all extracted css as separate css file
 
 const config = {
     entry: './src/index.js',
@@ -13,11 +14,17 @@ const config = {
                 test: /\.js$/ // check that file is .js - if yes, apply babel
             },
             {
-                use: ['style-loader', 'css-loader'], // applied right to left, css-loader imports css, style loader injects css into code
+                //use: ['style-loader', 'css-loader'], // applied right to left, css-loader imports css, style loader injects css into bundle code, then injects into html via js
+                loader: ExtractTextPlugin.extract({
+                    loader: 'css-loader'
+                }), // plugins have ability to stop code being included in bundle and output as separate files
                 test: /\.css$/
             }
         ] // loader rules for project e.g. babel
-    }
+    },
+    plugins: [
+        new ExtractTextPlugin('style.css') // set export name for css file
+    ]
 };
 
 module.exports = config;
