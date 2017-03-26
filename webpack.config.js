@@ -19,6 +19,27 @@ const config = {
                     loader: 'css-loader'
                 }), // plugins have ability to stop code being included in bundle and output as separate files
                 test: /\.css$/
+            },
+            {
+                test: /\.(jpe?g|png|gif|svg)$/, // set file types to handle
+                use: [
+                    {
+                        loader: 'url-loader',
+                        options: { limit: 40000 }
+                    }, // depending on image size, will either incorporate img directly into bundle.js (< 40 kb) or supply link, use object rather than string so can set config
+                    {
+                        loader: 'image-webpack-loader',
+                        query: {
+                            progressive: true,
+                            optimizationLevel: 7,
+                            interlaced: false,
+                            pngquant: {
+                                quality: '65-90',
+                                speed: 4
+                            }
+                        }
+                    } // first to be applied
+                ]
             }
         ] // loader rules for project e.g. babel
     },
